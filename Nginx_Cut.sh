@@ -27,3 +27,4 @@ sudo kill -USR1 `cat /run/nginx.pid`
 find ${Logs_Path}  -type f -name '*.gz' -ctime +7 -exec rm -rf {} \;
 
 # 配合Cron定时任务进行每天都日志分割
+
