@@ -10,12 +10,13 @@ Host=127.0.0.1
 User=root 
 Passwd=123456
 
-mysql -h${Host} -u​$${User}  -p​$${Passwd}​$ -e "show status;" > /dev/null 2>&1 
+mysql -h${Host} -u$${User}  -p$${Passwd}$ -e "show status;" > /dev/null 2>&1 
 if [ $? == 0 ] 
 then 
-​       echo " ​$host mysql login successfully " 
+​       echo " $host mysql login successfully " 
 ​     exit 0 
 ​     else 
 ​       service keepalived stop 
 ​     exit 2 
 fi
+
