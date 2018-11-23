@@ -74,3 +74,4 @@ End_mins=$(date --date="$EndTime +%s")/60
 
 # 最终计算出程序执行的总时长
 echo "本次运行总时长为："$((End_mins-Start_mins))"Mins"
+
