@@ -1,6 +1,6 @@
 1、ansible批量同步文件：
-	ansible all -m synchronize -a "src=src_path dest=dest_path"
-	
+​	ansible all -m synchronize -a "src=src_path dest=dest_path"
+​	
 2、ansible批量同步脚yml本文件
 ---
 - hosts: all
@@ -11,9 +11,9 @@
         dest: /apps/sh/zabbix_scripts/
         delete: yes
         rsync_opts:
-          - "--no-motd"
-          - "--exclude=redis.ini"	# 不同步某个文件
-		  
+      ​    - "--no-motd"
+      ​    - "--exclude=redis.ini"	# 不同步某个文件
+
     - name: Synchronize passing in extra rsync options
       synchronize:
         src: /apps/conf/zabbix_params/
