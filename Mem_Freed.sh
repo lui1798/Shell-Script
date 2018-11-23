@@ -17,3 +17,4 @@ if [ ${mem_free} -lt 5 ]; then
 else
 ​        echo "Notice! There is enough memory and no need to free it!"
 fi
+
