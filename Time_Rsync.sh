@@ -1,3 +1,5 @@
+#By Scong
+
 #1、同步时间服务器 ：
 
 ntpdate -u cn.pool.ntp.org
@@ -5,6 +7,7 @@ ntpdate -u cn.pool.ntp.org
 #2、将/etc/sysconfig/clock 下的ZONE改为：
 
 ZONE="Asia/Shanghai"
+
 #3、拷贝上海市区的文件：
 
 cp -a /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
@@ -30,3 +33,4 @@ hwclock --show
 #8、查看时间：
 
 date
+
