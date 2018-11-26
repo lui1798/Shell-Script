@@ -19,7 +19,7 @@ DumpFileName=database-${Date}.sql
 # 备份用户信息参数,Host看实际生产环境下而决定
 # Host=127.0.0.1
 UserName=root
-Passwd=scirh747200..
+Passwd=123456
 
 # 记录程序执行开始的时间
 StartTime=`date +'%Y-%m-%d %H:%M:%S'`
