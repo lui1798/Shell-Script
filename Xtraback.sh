@@ -6,7 +6,7 @@
 
 # 数据库
 User=root
-Password=scirh747200..
+Password=123456
 
 # 时间戳
 Date=`date +'%Y%m%d'`
