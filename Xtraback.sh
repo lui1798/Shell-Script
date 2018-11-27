@@ -1,7 +1,5 @@
 #!/bin/bash
-
-#By Scong
-
+# By Scong
 # Date: 2018-11-27  v1.0
 
 # Êý¾Ý¿â
