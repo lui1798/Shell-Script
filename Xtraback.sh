@@ -39,21 +39,23 @@ fi
 
 if [ $(date +%w) -eq 2 ]; then
   rm -rf /var/lib/mysql/*
-  innobackupex --user ${User} --password ${Password} --apply-log ${All_Backup}
+  innobackupex --user ${User} --password ${Password} --apply-log --redo-only  ${All_Backup}
+
 # 2、依次进行增量恢复
   Dirs=`ls /data/backup/ | sort | tail -6`
   Dirs_arr=(${Dirs})
   for dirs in ${Dirs_arr[@]}
   do
-      innobackupex --user ${User} --password ${Password} --apply-log --redo-only ${All_Backup} --incremental-basedir="${dirs}"
-      if [ $? -eq 0 ];then
-         echo "${dirs},恢复成功！"
-      else
-         echo "${dirs},恢复失败！"
-      fi
+?      innobackupex --user ${User} --password ${Password} --apply-log --redo-only ${All_Backup} --incremental-basedir="${dirs}"
+?      if [ $? -eq 0 ];then
+?         echo "${dirs},恢复成功！"
+?      else
+?         echo "${dirs},恢复失败！"
+?      fi
   done
 
-# 将恢复好的全备数据导入使用（非必须操作）
+将恢复好的全备数据导入使用（非必须操作）
+
 innobackupex --user ${User} --password ${Password} --copy-back ${All_Backup}
 
 
