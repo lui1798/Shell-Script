@@ -5,7 +5,7 @@
 ############################## Xtranback Full Backup & Incremental Backup ##############################
 
 # 数据库
-User=root
+User=Scong
 Password=123456
 
 # 时间戳
