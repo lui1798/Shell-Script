@@ -23,23 +23,23 @@ Incre_Backup=${Base_Dir}increment-${Date}
 # 上一次备份文件的路径
 Last_Backup=$(ls ${Base_Dir} | tail -1 | cut -d\' -f2)
 
-# 判断是否为周日，如果是，重新进行一次全备，如果不是，则进行增量备份
-if [ $(date +%w) -eq 0 ]; then
 # 判断是否有进行过全备，如果无则进行全备，如果有则进行增备
 #if [ ! -d "${All_Backup}"];then
+# 判断是否为周日，如果是，重新进行一次全备，如果不是，则进行增量备份
+if [ $(date +%w) -eq 0 ]; then
     rm -rf ${All_Backup}
     innobackupex --user ${User} --password ${Password} ${All_Backup} --no-timestamp
     if [ $? = 0 ];then
       echo -e "\nComplete Successfully!"
     else
-      echo -e "\nComplete Failed!"
+      echo -e "\n[Error] Complete Failed!"
     fi
 else
     innobackupex --user ${User} --password ${Password} --incremental ${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp
     if [ $? = 0 ];then
       echo -e "\nIncremental Successfully!!"
     else
-      echo -e "\nIncremental Failed!"
+      echo -e "\n[Error] Incremental Failed!"
     fi
 fi
 
