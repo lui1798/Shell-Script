@@ -57,7 +57,7 @@ if [ $(date +%w) -eq 0 ]; then
   Dirs_arr=(${Dirs})
   for dirs in ${Dirs_arr[@]}
   do
-      innobackupex --user ${User} --password ${Password} --apply-log --redo-only ${All_Backup} --incremental-basedir="${dirs}"
+      innobackupex --user ${User} --password ${Password} --apply-log --redo-only ${All_Backup} --incremental-dir="${dirs}"
       if [ $? -eq 0 ];then
          echo "${dirs},»Ö¸´³É¹¦£¡"
       else
