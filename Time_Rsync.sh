@@ -8,7 +8,7 @@ ntpdate -u cn.pool.ntp.org
 
 ZONE="Asia/Shanghai"
 
-#3、拷贝上海市区的文件：
+#3、拷贝市区的文件：
 
 cp -a /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
