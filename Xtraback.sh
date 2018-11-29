@@ -1,10 +1,11 @@
 #!/bin/bash
 # By Scong
-# Date: 2018-11-27  v1.5
+# Date: 2018-11-27  v1.6
 
 ############################## Xtranback Full Backup & Incremental Backup ##############################
 
 # 数据库
+Host=127.0.0.1
 User=Scong
 Password=123456
 
@@ -40,7 +41,7 @@ if [ ! -d "${All_Backup}" ];then
 #if [ $(date +%w) -eq 0 ]; then
     echo -e "\n Full backup starts... ... Please wait a moment\n"
     sleep 2
-    innobackupex --defaults-file=${Configure_Dir} --user ${User} --password ${Password} ${All_Backup} --no-timestamp >/dev/null 2>&1
+    innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} ${All_Backup} --no-timestamp >/dev/null 2>&1
     if [ $? = 0 ];then
       echo -e "\nComplete Successfully!"
     else
@@ -49,7 +50,7 @@ if [ ! -d "${All_Backup}" ];then
 else
     echo -e "\nIncremental backup started... ...Please wait a moment\n"
     sleep 2
-    innobackupex --defaults-file=${Configure_Dir} --user ${User} --password ${Password} --incremental ${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp >/dev/null 2>&1
+    innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} --incremental=${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp >/dev/null 2>&1
     if [ $? = 0 ];then
       echo -e "\nIncremental Successfully!!!"
     else
@@ -65,7 +66,7 @@ if [ $(date +%w) -eq 0 ]; then
    rm -rf /var/lib/mysql/*
    echo -e  "\nPrepare for your first data recovery......Please wait a moment\n"
    sleep 2
-   innobackupex --user ${User} --password ${Password} --apply-log --redo-only  ${All_Backup} >/dev/null 2>&1 
+   innobackupex --user=${User} --password=${Password} --apply-log --redo-only  ${All_Backup} >/dev/null 2>&1 
 
 # 2、依次进行增量恢复，注意这里的6，要根据实际情况进行修改
    Dirs=`ls ${Base_Dir} | sort | tail -6`
@@ -73,7 +74,7 @@ if [ $(date +%w) -eq 0 ]; then
    echo -e "\nLog merge in progress... ...Please wait a moment\n"
    for dirs in ${Dirs_arr[@]}
    do
-      innobackupex --user ${User} --password ${Password} --apply-log --redo-only ${All_Backup} --incremental-dir=${Base_Dir}${dirs}	>/dev/null 2>&1
+      innobackupex --user=${User} --password=${Password} --apply-log --redo-only ${All_Backup} --incremental-dir=${Base_Dir}${dirs}	>/dev/null 2>&1
       if [ $? -eq 0 ];then
          echo "${dirs},Restore Successfully！"
 		 sleep 2
@@ -86,7 +87,7 @@ if [ $(date +%w) -eq 0 ]; then
 #将恢复好的全备数据导入使用（非必须操作）
 echo -e "\nDatabase copy in progress......Do not operate..."
 sleep 2
-innobackupex --user ${User} --password ${Password} --copy-back ${All_Backup} >/dev/null 2>&1
+innobackupex --user=${User} --password=${Password} --copy-back ${All_Backup} >/dev/null 2>&1
 
 # 将恢复好的全备数据进行打包留底
 tar -cPf ${All_Backup}.tar.gz ${All_Backup}
