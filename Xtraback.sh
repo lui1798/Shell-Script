@@ -53,7 +53,7 @@ if [ ! -d "${All_Backup}" ];then
 else
     echo -e "\nIncremental backup started... ...Please wait a moment\n"
     sleep 2
-    innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} --incremental=${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp >/dev/null 2>&1
+    innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} --incremental ${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp >/dev/null 2>&1
     if [ $? = 0 ];then
       echo -e "\nIncremental Successfully!!!"
     else
