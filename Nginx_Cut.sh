@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # By Scong
 
 # Nginx日志目录

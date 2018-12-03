@@ -1,36 +1,36 @@
 #By Scong
 
-#1¡¢Í¬²½Ê±¼ä·þÎñÆ÷ £º
+#1ã€åŒæ­¥æ—¶é—´æœåŠ¡å™¨ ï¼š
 
 ntpdate -u cn.pool.ntp.org
 
-#2¡¢½«/etc/sysconfig/clock ÏÂµÄZONE¸ÄÎª£º
+#2ã€å°†/etc/sysconfig/clock ä¸‹çš„ZONEæ”¹ä¸ºï¼š
 
 ZONE="Asia/Shanghai"
 
-#3¡¢¿½±´ÊÐÇøµÄÎÄ¼þ£º
+#3ã€æ‹·è´å¸‚åŒºçš„æ–‡ä»¶ï¼š
 
 cp -a /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
-#4¡¢ÖØÆôNTP·þÎñÆ÷£º
+#4ã€é‡å¯NTPæœåŠ¡å™¨ï¼š
 
 /etc/init.d/ntpd restart
 
-#5¡¢Èç¹û³öÏÖ¡°Local time zone must be set--see zic manual page 2018¡±µÄ±¨´í¡£ÄÇÃ´ÎÒÃÇÐèÒªÔÚÈ«¾ÖÎÄ¼þÏÂÌí¼ÓÒÔÏÂÄÚÈÝ
+#5ã€å¦‚æžœå‡ºçŽ°â€œLocal time zone must be set--see zic manual page 2018â€çš„æŠ¥é”™ã€‚é‚£ä¹ˆæˆ‘ä»¬éœ€è¦åœ¨å…¨å±€æ–‡ä»¶ä¸‹æ·»åŠ ä»¥ä¸‹å†…å®¹
 
-¡°echo ¡°export TZ='Asia/Shanghai'¡± >> ~/.bashrc¡±
+â€œecho â€œexport TZ='Asia/Shanghai'â€ >> ~/.bashrcâ€
 
-#×îºósource ~/.bashrc½øÐÐ¼´Ê±ÉúÐ§¡£
+#æœ€åŽsource ~/.bashrcè¿›è¡Œå³æ—¶ç”Ÿæ•ˆã€‚
 
-#6¡¢½«Ó²¼þÊ±¼äÓëÏµÍ³Ê±¼äÍ¬²½£º
+#6ã€å°†ç¡¬ä»¶æ—¶é—´ä¸Žç³»ç»Ÿæ—¶é—´åŒæ­¥ï¼š
 
 hwclock --hctosys
 
-#7¡¢²é¿´Ó²¼þÊ±¼ä£º
+#7ã€æŸ¥çœ‹ç¡¬ä»¶æ—¶é—´ï¼š
 
 hwclock --show
 
-#8¡¢²é¿´Ê±¼ä£º
+#8ã€æŸ¥çœ‹æ—¶é—´ï¼š
 
 date
 

@@ -1,43 +1,46 @@
 #!/bin/bash
 # By Scong
-# Date: 2018-11-27  v1.6
+# Date: 2018-11-27  v1.7
+
+# æœ¬è„šæœ¬åªæä¾›å‚è€ƒï¼Œä½¿ç”¨ä¹‹å‰è¯·æ ¹æ®è‡ªèº«ç”Ÿäº§ç¯å¢ƒä¿®æ”¹ï¼Œå¦‚äº§ç”Ÿå·¥ä½œäº‹æ•…ï¼Œæœ¬äººæ¦‚ä¸è´Ÿè´£ï¼Œè¯·çŸ¥æ‚‰ï¼
+
 
 ############################## Xtranback Full Backup & Incremental Backup ##############################
 
-# Êı¾İ¿â
+# æ•°æ®åº“
 Host=127.0.0.1
 User=Scong
 Password=123456
 
-# Ö¸¶¨MySQLµÄÅäÖÃÎÄ¼ş,Õâ¸ö²Ù×÷Ö÷ÒªÊÇÎªÁË·ÀÖ¹²»Í¬»úÆ÷£¬MySQLµÄÅäÖÃÎÄ¼şÂ·¾¶²»Ò»Ñù
+# æŒ‡å®šMySQLçš„é…ç½®æ–‡ä»¶,è¿™ä¸ªæ“ä½œä¸»è¦æ˜¯ä¸ºäº†é˜²æ­¢ä¸åŒæœºå™¨ï¼ŒMySQLçš„é…ç½®æ–‡ä»¶è·¯å¾„ä¸ä¸€æ ·
 Configure_Dir=/etc/my.cnf
 
-# Ê±¼ä´Á
+# æ—¶é—´æˆ³
 Date=`date +'%Y%m%d'`
 
-# »ù´¡Ä¿Â¼
+# åŸºç¡€ç›®å½•
 Base_Dir=/data/backup/
 
-# È«±¸Â·¾¶
+# å…¨å¤‡è·¯å¾„
 All_Backup=${Base_Dir}all
 
-# Ôö±¸Â·¾¶
+# å¢å¤‡è·¯å¾„
 Incre_Backup=${Base_Dir}increment-${Date}
 
-# ÉÏÒ»´Î±¸·İÎÄ¼şµÄÂ·¾¶
+# ä¸Šä¸€æ¬¡å¤‡ä»½æ–‡ä»¶çš„è·¯å¾„
 Last_Backup=$(ls ${Base_Dir} | tail -1 | cut -d\' -f2)
 
-# ¼ì²âXtrabackupÊÇ·ñ°²×°
+# æ£€æµ‹Xtrabackupæ˜¯å¦å®‰è£…
 if [ -f /usr/bin/innobackupex ];then
     echo "is ok"
 else
     echo "is not exist"
 fi
 
-# ÅĞ¶ÏÊÇ·ñÓĞ½øĞĞ¹ıÈ«±¸£¬Èç¹ûÎŞÔò½øĞĞÈ«±¸£¬Èç¹ûÓĞÔò½øĞĞÔö±¸
+# åˆ¤æ–­æ˜¯å¦æœ‰è¿›è¡Œè¿‡å…¨å¤‡ï¼Œå¦‚æœæ— åˆ™è¿›è¡Œå…¨å¤‡ï¼Œå¦‚æœæœ‰åˆ™è¿›è¡Œå¢å¤‡
 if [ ! -d "${All_Backup}" ];then
 
-# ÅĞ¶ÏÊÇ·ñÎªÖÜÈÕ£¬Èç¹ûÊÇ£¬ÖØĞÂ½øĞĞÒ»´ÎÈ«±¸£¬Èç¹û²»ÊÇ£¬Ôò½øĞĞÔöÁ¿±¸·İ
+# åˆ¤æ–­æ˜¯å¦ä¸ºå‘¨æ—¥ï¼Œå¦‚æœæ˜¯ï¼Œé‡æ–°è¿›è¡Œä¸€æ¬¡å…¨å¤‡ï¼Œå¦‚æœä¸æ˜¯ï¼Œåˆ™è¿›è¡Œå¢é‡å¤‡ä»½
 #if [ $(date +%w) -eq 0 ]; then
     echo -e "\n Full backup starts... ... Please wait a moment\n"
     sleep 2
@@ -60,7 +63,7 @@ fi
 
 ############################## Data Recovery ##############################
 
-# Ã¿ÖÜÈÕ½øĞĞÒ»´ÎÈÕÖ¾ºÏ²¢
+# æ¯å‘¨æ—¥è¿›è¡Œä¸€æ¬¡æ—¥å¿—åˆå¹¶
 if [ $(date +%w) -eq 0 ]; then
    systemctl stop mysqld
    rm -rf /var/lib/mysql/*
@@ -68,7 +71,7 @@ if [ $(date +%w) -eq 0 ]; then
    sleep 2
    innobackupex --user=${User} --password=${Password} --apply-log --redo-only  ${All_Backup} >/dev/null 2>&1 
 
-# 2¡¢ÒÀ´Î½øĞĞÔöÁ¿»Ö¸´£¬×¢ÒâÕâÀïµÄ6£¬Òª¸ù¾İÊµ¼ÊÇé¿ö½øĞĞĞŞ¸Ä
+# 2ã€ä¾æ¬¡è¿›è¡Œå¢é‡æ¢å¤ï¼Œæ³¨æ„è¿™é‡Œçš„6ï¼Œè¦æ ¹æ®å®é™…æƒ…å†µè¿›è¡Œä¿®æ”¹
    Dirs=`ls ${Base_Dir} | sort | tail -6`
    Dirs_arr=(${Dirs})
    echo -e "\nLog merge in progress... ...Please wait a moment\n"
@@ -76,29 +79,29 @@ if [ $(date +%w) -eq 0 ]; then
    do
       innobackupex --user=${User} --password=${Password} --apply-log --redo-only ${All_Backup} --incremental-dir=${Base_Dir}${dirs}	>/dev/null 2>&1
       if [ $? -eq 0 ];then
-         echo "${dirs},Restore Successfully£¡"
+         echo "${dirs},Restore Successfullyï¼"
 		 sleep 2
       else
-         echo "[Error] ${dirs},Restore Failed£¡"
+         echo "[Error] ${dirs},Restore Failedï¼"
          exit
       fi
    done
 
-#½«»Ö¸´ºÃµÄÈ«±¸Êı¾İµ¼ÈëÊ¹ÓÃ£¨·Ç±ØĞë²Ù×÷£©
+#å°†æ¢å¤å¥½çš„å…¨å¤‡æ•°æ®å¯¼å…¥ä½¿ç”¨ï¼ˆéå¿…é¡»æ“ä½œï¼‰
 echo -e "\nDatabase copy in progress......Do not operate..."
 sleep 2
 innobackupex --user=${User} --password=${Password} --copy-back ${All_Backup} >/dev/null 2>&1
 
-# ½«»Ö¸´ºÃµÄÈ«±¸Êı¾İ½øĞĞ´ò°üÁôµ×
+# å°†æ¢å¤å¥½çš„å…¨å¤‡æ•°æ®è¿›è¡Œæ‰“åŒ…ç•™åº•
 tar -cPf ${All_Backup}.tar.gz ${All_Backup}
 
-# ĞŞ¸ÄmysqlÄ¿Â¼µÄÊôÖ÷Êô×é
+# ä¿®æ”¹mysqlç›®å½•çš„å±ä¸»å±ç»„
 chown -R mysql.mysql /var/lib/mysql
 
-# ÖØÆômysqld·şÎñ
+# é‡å¯mysqldæœåŠ¡
 systemctl restart mysqld
 
-# ¼ì²âMySQLÊÇ·ñÖØÆô³É¹¦
+# æ£€æµ‹MySQLæ˜¯å¦é‡å¯æˆåŠŸ
 netstat -antulp | grep :3306 >/dev/null 2>&1
 if [ $? = 0 ];then
     echo "Database started successfully!" 
@@ -106,7 +109,7 @@ else
 	echo "Database started Failed!"
 fi
 
-# ²éÕÒÒ»ĞÇÆÚÇ°µÄÎÄ¼ş²¢½«ÆäÉ¾³ı
+# æŸ¥æ‰¾ä¸€æ˜ŸæœŸå‰çš„æ–‡ä»¶å¹¶å°†å…¶åˆ é™¤
 #find ./  -mindepth 1 -maxdepth 1 -type d -name '*' -ctime +7 -exec rm -rf {} \;
 
 fi
