@@ -1,13 +1,14 @@
 #!/bin/bash
 # By Scong
-# Date: 2018-11-27  v1.7
+# Blog：https://blog.csdn.net/Scirhh
+# Date: 2018-12-04  v1.8
 
 # 本脚本只提供参考，使用之前请根据自身生产环境修改，如产生工作事故，本人概不负责，请知悉！
 
 
 ############################## Xtranback Full Backup & Incremental Backup ##############################
 
-# 数据库
+# 数据库信息
 Host=127.0.0.1
 User=Scong
 Password=123456
@@ -44,7 +45,9 @@ if [ ! -d "${All_Backup}" ];then
 #if [ $(date +%w) -eq 0 ]; then
     echo -e "\n Full backup starts... ... Please wait a moment\n"
     sleep 2
-    innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} ${All_Backup} --no-timestamp >/dev/null 2>&1
+# 注意这里的innobackupex最好是填写绝对路径，因为使用cron定时时，可能cron环境没有innobackupex这个命令，所以最好是加上绝对路径，以确保完整执行
+	
+    /usr/bin/innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} ${All_Backup} --no-timestamp >/dev/null 2>&1
     if [ $? = 0 ];then
       echo -e "\nComplete Successfully!"
     else
@@ -53,7 +56,7 @@ if [ ! -d "${All_Backup}" ];then
 else
     echo -e "\nIncremental backup started... ...Please wait a moment\n"
     sleep 2
-    innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} --incremental ${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp >/dev/null 2>&1
+    /usr/bin/innobackupex --defaults-file=${Configure_Dir} --host=${Host} --user=${User} --password=${Password} --incremental ${Incre_Backup} --incremental-basedir=${Base_Dir}${Last_Backup} --no-timestamp >/dev/null 2>&1
     if [ $? = 0 ];then
       echo -e "\nIncremental Successfully!!!"
     else
@@ -69,7 +72,7 @@ if [ $(date +%w) -eq 0 ]; then
    rm -rf /var/lib/mysql/*
    echo -e  "\nPrepare for your first data recovery......Please wait a moment\n"
    sleep 2
-   innobackupex --user=${User} --password=${Password} --apply-log --redo-only  ${All_Backup} >/dev/null 2>&1 
+   /usr/bin/innobackupex --user=${User} --password=${Password} --apply-log --redo-only  ${All_Backup} >/dev/null 2>&1 
 
 # 2、依次进行增量恢复，注意这里的6，要根据实际情况进行修改
    Dirs=`ls ${Base_Dir} | sort | tail -6`
@@ -77,12 +80,12 @@ if [ $(date +%w) -eq 0 ]; then
    echo -e "\nLog merge in progress... ...Please wait a moment\n"
    for dirs in ${Dirs_arr[@]}
    do
-      innobackupex --user=${User} --password=${Password} --apply-log --redo-only ${All_Backup} --incremental-dir=${Base_Dir}${dirs}	>/dev/null 2>&1
+      /usr/bin/innobackupex --user=${User} --password=${Password} --apply-log --redo-only ${All_Backup} --incremental-dir=${Base_Dir}${dirs}	>/dev/null 2>&1
       if [ $? -eq 0 ];then
-         echo "${dirs},Restore Successfully！"
+         echo "${dirs},Restore Successfully!"
 		 sleep 2
       else
-         echo "[Error] ${dirs},Restore Failed！"
+         echo "[Error] ${dirs},Restore Failed!"
          exit
       fi
    done
