@@ -17,7 +17,7 @@ DumpFileName=database-${Date}.sql
 #GzDumpFileName=database-${Date}.sql.tar.gz
 
 # 备份用户信息参数,Host看实际生产环境下而决定
-# Host=127.0.0.1
+Host=127.0.0.1
 UserName=root
 Passwd=123456
 
@@ -33,7 +33,7 @@ echo -e "\nThe database is being backed up. Waiting... ...\n"
 # mysqldump -u${UserName} -p${Passwd} --all-databases  --single-transaction > ${DumpFileName}
 
 # 备份时指定库,利用数组的方式
-arr_databases=(wordpress)
+arr_databases=(database1 database2 ... database3)
 mysqldump -u${UserName} -p${Passwd} --single-transaction --databases ${arr_databases[@]} > ${DumpFileName}
 
 # 备份时指定备份某个库的某几张表
@@ -74,4 +74,22 @@ End_mins=$(date --date="$EndTime +%s")/60
 
 # 最终计算出程序执行的总时长
 echo "本次运行总时长为："$((End_mins-Start_mins))"Mins"
+
+
+#############################  数据库恢复  #############################  
+# 从多个库中恢复单个库
+mysql -h${Host} -u${UserName} -p${Passwd} -o  database -f < ${DumpFileName}
+
+# 或者将需要恢复的数据库提取出来，最后将其导入
+sed -n '/^-- Current Database: `库名`/,/^-- Current Database: `/p' 备份数据库(xxxx.sql) > xxx.sql
+mysql -h${Host} -u${UserName} -p${Passwd} DatabaseName < xxx.sql
+
+
+
+
+
+
+
+
+
 
